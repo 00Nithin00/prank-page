@@ -63,11 +63,55 @@
     count++;
     if(count >= totalLines){
       clearInterval(timer);
+if (count >= totalLines) {
+  clearInterval(timer);
+
+  // --- show progress bar phase ---
+  const bar = document.createElement("div");
+  bar.style.width = "0%";
+  bar.style.height = "24px";
+  bar.style.border = "2px solid #2ecc71";
+  bar.style.borderRadius = "6px";
+  bar.style.marginTop = "20px";
+  bar.style.overflow = "hidden";
+
+  const fill = document.createElement("div");
+  fill.style.height = "100%";
+  fill.style.width = "0%";
+  fill.style.background = "#2ecc71";
+  bar.appendChild(fill);
+
+  log.parentNode.appendChild(bar);
+
+  let pct = 0;
+  const progressTimer = setInterval(() => {
+    pct += Math.floor(Math.random() * 8) + 1; // random speed
+    if (pct > 100) pct = 100;
+    fill.style.width = pct + "%";
+
+    if (pct >= 100) {
+      clearInterval(progressTimer);
+
+      // wait half a second, then fade out logs + bar and show reveal
       setTimeout(() => {
-        log.style.transition = "opacity 400ms"; log.style.opacity = "0";
-        setTimeout(()=>{ log.style.display = "none"; reveal.style.display = "block"; reveal.style.opacity=0; reveal.style.transition="opacity 400ms"; reveal.style.opacity=1; }, 450);
-      }, 1000);
+        log.style.transition = "opacity 400ms";
+        bar.style.transition = "opacity 400ms";
+        log.style.opacity = "0";
+        bar.style.opacity = "0";
+
+        setTimeout(() => {
+          log.style.display = "none";
+          bar.style.display = "none";
+          reveal.style.display = "block";
+          reveal.style.opacity = 0;
+          reveal.style.transition = "opacity 400ms";
+          reveal.style.opacity = 1;
+        }, 450);
+      }, 500);
     }
+  }, 120); // speed of progress fill
+}
+
   }
 
   const timer = setInterval(tick, intervalMs);
