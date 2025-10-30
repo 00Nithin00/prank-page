@@ -148,19 +148,42 @@
     }
     step();
   }
+function fadeOutAndReveal(bar){
+  // fade out log + bar
+  log.style.transition = bar.style.transition = "opacity 400ms";
+  log.style.opacity = bar.style.opacity = "0";
 
-  function fadeOutAndReveal(bar){
-    log.style.transition = bar.style.transition = "opacity 400ms";
-    log.style.opacity = bar.style.opacity = "0";
+  setTimeout(() => {
+    // hide the log and bar
+    log.style.display = bar.style.display = "none";
 
-    setTimeout(() => {
-      log.style.display = bar.style.display = "none";
-      reveal.style.display = "block";
-      reveal.style.opacity = "0";
-      reveal.style.transition = "opacity 400ms";
-      requestAnimationFrame(() => reveal.style.opacity = "1");
-    }, 400);
-  }
+    // small flash effect (optional)
+    document.body.style.transition = "background 0.35s";
+    document.body.style.background = "#111";
+    setTimeout(() => { document.body.style.background = "#000"; }, 350);
+
+    // prepare reveal element for typing effect
+    reveal.style.display = "block";
+    reveal.style.opacity = "1";
+    reveal.textContent = "";          // clear any existing text
+
+    // typing message
+    const msg = "Darkangel enters the device!!! 💀";
+    let i = 0;
+    function type() {
+      if (i < msg.length) {
+        reveal.textContent += msg[i++];
+        setTimeout(type, 60); // typing speed (ms) — lower = faster
+      } else {
+        // after typing completes, add a subtle pulse/glow class if desired
+        // (requires CSS keyframes; see note below)
+        reveal.classList.add("pulse-glow");
+      }
+    }
+    // start typing shortly after reveal is visible
+    setTimeout(type, 120);
+  }, 400);
+}
 
   const timer = setInterval(tick, intervalMs);
 
