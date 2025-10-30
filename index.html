@@ -92,8 +92,8 @@
 
   const log = document.getElementById('log');
   const reveal = document.getElementById('reveal');
-  const totalLines = 120;          // how many lines to show before reveal
-  const intervalMs = 1100;         // speed of prints in ms
+  const totalLines = 80;          // how many lines to show before reveal
+  const intervalMs = 500;         // speed of prints in ms
 
   let count = 0;
   function randPhrase(){
@@ -139,7 +139,7 @@
       fill.style.width = pct + "%";
 
       if (pct < 100){
-        setTimeout(step, 120);
+        setTimeout(step, 80);
       } else {
         setTimeout(() => {
           fadeOutAndReveal(bar);
